@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox prefHeight="600" prefWidth="900" stylesheets="@../css/theme.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+
+    <!-- Left branding panel -->
+    <VBox alignment="CENTER" prefHeight="600.0" prefWidth="389.0" spacing="18" styleClass="login-left">
+        <padding><Insets bottom="60" left="48" right="48" top="60" /></padding>
+        <ImageView fitHeight="80" fitWidth="80" preserveRatio="true">
+            <Image url="@../images/logo.jpeg" />
+        </ImageView>
+        <Label prefHeight="56.0" prefWidth="324.0" styleClass="brand-title" text="Nav Medical Complex" />
+        <Label styleClass="brand-sub" text="Healthcare &amp; Service Management System" textAlignment="CENTER" wrapText="true" />
+        <VBox alignment="CENTER_LEFT" prefHeight="211.0" prefWidth="288.0" spacing="10" styleClass="feature-list">
+            <padding><Insets top="20" /></padding>
+            <Label prefHeight="28.0" prefWidth="288.0" styleClass="feature-item" text="&gt;We Provide Best Services" textAlignment="CENTER" />
+            <Label prefHeight="28.0" prefWidth="288.0" styleClass="feature-item" text="&gt;Extra Ordinary Doctors like Malik Umair Naveed" />
+            <Label prefHeight="28.0" prefWidth="288.0" styleClass="feature-item" text="&gt;Best Facilities under the supervision of The mighty M.Talha" />
+            <Label prefHeight="28.0" prefWidth="288.0" styleClass="feature-item" text="&gt;Best Affordable Billing Amounts" />
+            <Label prefHeight="28.0" prefWidth="288.0" styleClass="feature-item" text="&gt;Best Machineries Managed by GC BAAZ" />
+        </VBox>
+    </VBox>
+
+    <!-- Right login form -->
+    <VBox alignment="CENTER" prefWidth="520" spacing="20" styleClass="login-right">
+        <padding><Insets bottom="60" left="64" right="64" top="60" /></padding>
+        <Label styleClass="login-heading" text="Sign In" />
+        <Label styleClass="login-sub" text="Enter your credentials to continue" />
+
+        <VBox maxWidth="Infinity" spacing="6">
+            <Label styleClass="field-label" text="Email Address" />
+            <TextField fx:id="emailField" promptText="your@email.com" styleClass="input-field" />
+        </VBox>
+
+        <VBox maxWidth="Infinity" spacing="6">
+            <Label styleClass="field-label" text="Password" />
+            <PasswordField fx:id="passwordField" promptText="••••••••" styleClass="input-field" />
+        </VBox>
+
+        <Label fx:id="errorLabel" maxWidth="Infinity" styleClass="error-label" text="" wrapText="true" />
+
+        <Button fx:id="loginBtn" maxWidth="Infinity" onAction="#handleLogin" styleClass="btn-primary" text="Sign In →" />
+
+        <VBox alignment="CENTER" maxWidth="Infinity" spacing="5" styleClass="hint-box">
+            <padding><Insets bottom="4" left="12" right="12" top="4" /></padding>
+            <Label styleClass="hint-title" text="DEMO CREDENTIALS" />
+            <Label styleClass="hint-text" text="Admin   →  adm@mail  /  123" />
+            <Label styleClass="hint-text" text="Doctor  →  nav@mail  /  123" />
+            <Label styleClass="hint-text" text="Patient →  zoh@mail  /  123" />
+        </VBox>
+    </VBox>
+</HBox>

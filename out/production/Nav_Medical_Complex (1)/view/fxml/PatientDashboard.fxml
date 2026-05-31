@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.PatientDashboardController"
+            stylesheets="@../css/theme.css"
+            prefWidth="1400" prefHeight="900">
+
+    <top>
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="14">
+            <padding><Insets top="0" bottom="0" left="24" right="24"/></padding>
+            <Label styleClass="topbar-logo" text="🏥"/>
+            <VBox spacing="1">
+                <Label styleClass="topbar-title" text="Nav Medical Complex"/>
+                <Label styleClass="topbar-role"  text="PATIENT PORTAL"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox spacing="20" alignment="CENTER">
+                <VBox alignment="CENTER" spacing="1">
+                    <Label fx:id="statMyAppts"    styleClass="topstat-num"    text="0"/>
+                    <Label styleClass="topstat-lbl" text="Appointments"/>
+                </VBox>
+                <Label styleClass="topstat-div" text="|"/>
+                <VBox alignment="CENTER" spacing="1">
+                    <Label fx:id="statMyServices" styleClass="topstat-num"    text="0"/>
+                    <Label styleClass="topstat-lbl" text="Services"/>
+                </VBox>
+                <Label styleClass="topstat-div" text="|"/>
+                <VBox alignment="CENTER" spacing="1">
+                    <Label fx:id="statTotalBill"  styleClass="topstat-num-orange" text="Rs 0"/>
+                    <Label styleClass="topstat-lbl" text="Total Bill"/>
+                </VBox>
+            </HBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel"    styleClass="topbar-welcome"  text="Patient Name"/>
+            <Label fx:id="emergencyBadge"  styleClass="badge-emergency" text=""/>
+            <Button styleClass="btn-logout" text="Logout" onAction="#handleLogout"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane styleClass="main-tabs" tabClosingPolicy="UNAVAILABLE">
+
+            <Tab text="📅 Book Appointment">
+                <BorderPane styleClass="tab-content">
+                    <center>
+                        <HBox spacing="14">
+                            <padding><Insets top="14" bottom="14" left="18" right="18"/></padding>
+                            <VBox styleClass="table-pane" HBox.hgrow="ALWAYS">
+                                <Label styleClass="tab-title" text="My Appointments"/>
+                                <TableView fx:id="myApptTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="maColId"       text="Appt"     prefWidth="85"/>
+                                        <TableColumn fx:id="maColDoctor"   text="Doctor"   prefWidth="160"/>
+                                        <TableColumn fx:id="maColSpec"     text="Specialty" prefWidth="120"/>
+                                        <TableColumn fx:id="maColDate"     text="Date"     prefWidth="100"/>
+                                        <TableColumn fx:id="maColTime"     text="Time"     prefWidth="65"/>
+                                        <TableColumn fx:id="maColPriority" text="Priority" prefWidth="85"/>
+                                        <TableColumn fx:id="maColStatus"   text="Status"   prefWidth="100"/>
+                                        <TableColumn fx:id="maColReschedule" text="Action"   prefWidth="110"/>
+                                    </columns>
+                                    <placeholder><Label text="No appointments booked yet." styleClass="table-placeholder"/></placeholder>
+                                </TableView>
+                            </VBox>
+                            <ScrollPane fitToWidth="true" styleClass="form-scroll" prefWidth="300">
+                                <VBox styleClass="form-panel" spacing="12">
+                                    <padding><Insets top="18" bottom="18" left="18" right="18"/></padding>
+                                    <Label styleClass="form-title" text="New Appointment"/>
+                                    <Label styleClass="field-label" text="Select Doctor"/>
+                                    <ComboBox fx:id="bookDoctorCombo" styleClass="input-field"
+                                              maxWidth="Infinity" promptText="Choose doctor"/>
+                                    <Label styleClass="field-label" text="Date (YYYY-MM-DD)"/>
+                                    <TextField fx:id="bookDate" styleClass="input-field" promptText="2026-06-15"/>
+                                    <Label styleClass="field-label" text="Time (HH:MM)"/>
+                                    <TextField fx:id="bookTime" styleClass="input-field" promptText="10:00"/>
+                                    <Label styleClass="field-label" text="Priority"/>
+                                    <ComboBox fx:id="bookPriority" styleClass="input-field" maxWidth="Infinity"/>
+                                    <Label styleClass="field-label" text="Reason for Visit"/>
+                                    <TextArea fx:id="bookReason" styleClass="input-area"
+                                              promptText="Describe your symptoms..."
+                                              prefHeight="80" wrapText="true"/>
+                                    <Button styleClass="btn-primary" text="Confirm Booking"
+                                            maxWidth="Infinity" onAction="#confirmBooking"/>
+                                    <Label fx:id="bookMsg" styleClass="form-msg" text="" wrapText="true"/>
+                                </VBox>
+                            </ScrollPane>
+                        </HBox>
+                    </center>
+                </BorderPane>
+            </Tab>
+
+            <Tab text="📋 Medical History">
+                <BorderPane styleClass="tab-content">
+                    <center>
+                        <VBox spacing="12">
+                            <padding><Insets top="14" bottom="14" left="18" right="18"/></padding>
+                            <Label styleClass="tab-title" text="Medical History"/>
+                            <TableView fx:id="historyTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="hiColDate"    text="Date"     prefWidth="130"/>
+                                    <TableColumn fx:id="hiColDoctor"  text="Doctor"   prefWidth="180"/>
+                                    <TableColumn fx:id="hiColReason"  text="Reason"   prefWidth="200"/>
+                                    <TableColumn fx:id="hiColNotes"   text="Diagnosis/Notes" prefWidth="400"/>
+                                    <TableColumn fx:id="hiColStatus"  text="Status"   prefWidth="100"/>
+                                </columns>
+                                <placeholder><Label text="No medical history recorded yet." styleClass="table-placeholder"/></placeholder>
+                            </TableView>
+                        </VBox>
+                    </center>
+                </BorderPane>
+            </Tab>
+
+            <Tab text="🧪 My Services">
+                <BorderPane styleClass="tab-content">
+                    <center>
+                        <VBox spacing="12">
+                            <padding><Insets top="14" bottom="14" left="18" right="18"/></padding>
+                            <Label styleClass="tab-title" text="Services Received"/>
+                            <TableView fx:id="myServiceTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="msColId"       text="ID"           prefWidth="80"/>
+                                    <TableColumn fx:id="msColName"     text="Service"      prefWidth="220"/>
+                                    <TableColumn fx:id="msColCategory" text="Category"     prefWidth="120"/>
+                                    <TableColumn fx:id="msColDoctor"   text="By Doctor"    prefWidth="160"/>
+                                    <TableColumn fx:id="msColCost"     text="Cost (Rs)"    prefWidth="100"/>
+                                    <TableColumn fx:id="msColDate"     text="Performed"    prefWidth="130"/>
+                                    <TableColumn fx:id="msColStatus"   text="Status"       prefWidth="100"/>
+                                </columns>
+                                <placeholder><Label text="No services received yet." styleClass="table-placeholder"/></placeholder>
+                            </TableView>
+                        </VBox>
+                    </center>
+                </BorderPane>
+            </Tab>
+
+            <Tab text="💳 My Bills">
+                <BorderPane styleClass="tab-content">
+                    <center>
+                        <VBox spacing="12">
+                            <padding><Insets top="14" bottom="14" left="18" right="18"/></padding>
+                            <Label styleClass="tab-title" text="My Bills"/>
+                            <TableView fx:id="myBillTable" styleClass="data-table" VBox.vgrow="ALWAYS"
+                                       onMouseClicked="#onBillSelected">
+                                <columns>
+                                    <TableColumn fx:id="mbColId"        text="Bill"       prefWidth="90"/>
+                                    <TableColumn fx:id="mbColGenerated" text="Date"       prefWidth="130"/>
+                                    <TableColumn fx:id="mbColSubtotal"  text="Subtotal"   prefWidth="120"/>
+                                    <TableColumn fx:id="mbColTax"       text="Tax"        prefWidth="80"/>
+                                    <TableColumn fx:id="mbColTotal"     text="Total (Rs)" prefWidth="130"/>
+                                    <TableColumn fx:id="mbColStatus"    text="Status"     prefWidth="120"/>
+                                    <TableColumn fx:id="mbColAction"    text="Action"     prefWidth="110"/>
+                                </columns>
+                                <placeholder><Label text="No bills issued yet." styleClass="table-placeholder"/></placeholder>
+                            </TableView>
+                            <VBox styleClass="table-pane">
+                                <Label styleClass="section-sub-title" text="Bill Breakdown"/>
+                                <TableView fx:id="myBillItemTable" styleClass="data-table" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="biColItem2"     text="Item/Service"  prefWidth="350"/>
+                                        <TableColumn fx:id="biColCategory2" text="Category"      prefWidth="150"/>
+                                        <TableColumn fx:id="biColAmount2"   text="Amount (Rs)"   prefWidth="150"/>
+                                    </columns>
+                                    <placeholder><Label text="Select a bill to view breakdown." styleClass="table-placeholder"/></placeholder>
+                                </TableView>
+                            </VBox>
+                        </VBox>
+                    </center>
+                </BorderPane>
+            </Tab>
+
+            <Tab text="👤 My Profile">
+                <ScrollPane fitToWidth="true" styleClass="form-scroll">
+                    <VBox styleClass="profile-panel" spacing="16" maxWidth="600">
+                        <padding><Insets top="30" bottom="30" left="40" right="40"/></padding>
+                        <HBox spacing="20" alignment="CENTER_LEFT">
+                            <Label styleClass="avatar-xl" text="👤"/>
+                            <VBox spacing="4">
+                                <Label fx:id="profileName"   styleClass="profile-name" text="Patient Name"/>
+                                <Label fx:id="profileInfoLbl" styleClass="profile-spec" text="Age | Blood Group"/>
+                                <Label fx:id="profilePhone"  styleClass="profile-qual" text="Phone"/>
+                            </VBox>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="profileEmergBadge" styleClass="badge-emergency" text=""/>
+                        </HBox>
+                        <Separator/>
+                        <Label styleClass="field-label" text="Email"/>
+                        <Label fx:id="profileEmail"   styleClass="profile-field-val" text=""/>
+                        <Label styleClass="field-label" text="Address"/>
+                        <Label fx:id="profileAddress" styleClass="profile-field-val" text=""/>
+                        <Label styleClass="field-label" text="Medical ID"/>
+                        <Label fx:id="profileId"      styleClass="profile-field-val" text=""/>
+                        <Separator/>
+                        <Label styleClass="form-title" text="Update Contact Info"/>
+                        <Label styleClass="field-label" text="New Phone"/>
+                        <TextField fx:id="updatePhone" styleClass="input-field" promptText="New phone number"/>
+                        <Label styleClass="field-label" text="New Address"/>
+                        <TextField fx:id="updateAddress" styleClass="input-field" promptText="New address"/>
+                        <Button styleClass="btn-primary" text="Update Profile" maxWidth="200" onAction="#updateProfile"/>
+                        <Label fx:id="profileMsg" styleClass="form-msg" text=""/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+
+        </TabPane>
+    </center>
+</BorderPane>
